@@ -285,6 +285,11 @@ button {
     font: 13px Arial, sans-serif;
 }
 
+.warning-alert {
+    border-left-color: var(--yellow);
+    background: color-mix(in srgb, var(--yellow) 18%, var(--surface));
+}
+
 .metrics {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
