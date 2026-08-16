@@ -8,6 +8,15 @@
     --green: #2f765a;
     --yellow: #e7bb48;
     --red: #bd654d;
+    --surface: #fafbf7;
+    --surface-hover: #f0f4eb;
+    --input: #ffffff;
+    --track: #e7ece4;
+    --success-bg: #e8f3e9;
+    --success-line: #bcd8c5;
+    --success-text: #557361;
+    --danger-bg: #f9e8e3;
+    --status-ok-bg: #e2f0e5;
 }
 
 :root[data-theme="dark"] {
@@ -18,6 +27,15 @@
     --green: #83c49a;
     --yellow: #e7bb48;
     --red: #e58c72;
+    --surface: #24322c;
+    --surface-hover: #2d4036;
+    --input: #202d27;
+    --track: #405149;
+    --success-bg: #294236;
+    --success-line: #4f7b5d;
+    --success-text: #b5d6bc;
+    --danger-bg: #482d29;
+    --status-ok-bg: #294236;
 }
 
 * {
@@ -51,8 +69,16 @@ body {
 }
 
 .site-nav {
+    max-width: 1360px;
+    margin: auto;
+    padding: 0 42px;
+    border-bottom: 1px solid var(--line);
     display: flex;
+    justify-content: flex-end;
     gap: 25px;
+    font: 12px Arial, sans-serif;
+    letter-spacing: .08em;
+    text-transform: uppercase;
 }
 
 .site-nav a {
@@ -212,8 +238,8 @@ button {
 .health {
     gap: 12px;
     padding: 13px 16px;
-    border: 1px solid #bcd8c5;
-    background: #e8f3e9;
+    border: 1px solid var(--success-line);
+    background: var(--success-bg);
     font-family: Arial, sans-serif;
 }
 
@@ -238,13 +264,13 @@ button {
 
 .health span {
     margin-top: 3px;
-    color: #557361;
+    color: var(--success-text);
     font-size: 11px;
 }
 
 .alert {
     border-left: 3px solid var(--red);
-    background: #f9e8e3;
+    background: var(--danger-bg);
     padding: 13px 16px;
     margin-bottom: 24px;
     font: 13px Arial, sans-serif;
@@ -300,7 +326,7 @@ button {
 }
 
 .panel {
-    background: #fafbf7;
+    background: var(--surface);
     border: 1px solid var(--line);
     padding: 27px;
 }
@@ -330,7 +356,7 @@ button {
 .primary {
     border: 0;
     background: var(--ink);
-    color: white;
+    color: var(--paper);
     padding: 11px 15px;
     font: 700 11px Arial, sans-serif;
     letter-spacing: .06em;
@@ -366,7 +392,7 @@ button {
 }
 
 .feed-row:hover {
-    background: #f0f4eb;
+    background: var(--surface-hover);
 }
 
 .status {
@@ -418,7 +444,8 @@ button {
 
 .feed-form input {
     border: 1px solid var(--line);
-    background: white;
+    background: var(--input);
+    color: var(--ink);
     padding: 11px;
     font-size: 14px;
 }
@@ -449,7 +476,7 @@ button {
 
 .bar-track {
     height: 7px;
-    background: #e7ece4;
+    background: var(--track);
     margin-top: 8px;
 }
 
@@ -507,12 +534,12 @@ code {
 }
 
 .http-status.ok {
-    background: #e2f0e5;
+    background: var(--status-ok-bg);
     color: var(--green);
 }
 
 .http-status.bad {
-    background: #f9e8e3;
+    background: var(--danger-bg);
     color: var(--red);
 }
 
@@ -702,6 +729,71 @@ code {
     font: 700 12px Arial, sans-serif;
 }
 
+.back-link,
+.feed-source {
+    color: var(--muted);
+    font: 12px Arial, sans-serif;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 35px;
+    text-decoration: none;
+}
+
+.back-link:hover,
+.feed-story a {
+    color: var(--green);
+}
+
+.feed-detail-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 48px;
+}
+
+.feed-detail-header .subpage-lede {
+    margin-bottom: 14px;
+}
+
+.feed-source {
+    margin: 0;
+    word-break: break-all;
+}
+
+.source-button {
+    flex: 0 0 auto;
+    text-decoration: none;
+}
+
+.feed-detail-items {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    padding: 27px;
+}
+
+.feed-story {
+    border-top: 1px solid var(--line);
+    padding: 24px 0;
+}
+
+.feed-story h2 {
+    margin: 8px 0;
+    font-size: 26px;
+    font-weight: 400;
+}
+
+.feed-story p:not(.story-meta) {
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.feed-story a {
+    font: 700 12px Arial, sans-serif;
+}
+
 .settings-list {
     max-width: 720px;
     padding: 0 27px;
@@ -856,6 +948,19 @@ code {
     .about-grid,
     .posts-grid {
         grid-template-columns: 1fr;
+    }
+
+    .feed-detail-header {
+        display: block;
+    }
+
+    .source-button {
+        display: inline-block;
+        margin-top: 24px;
+    }
+
+    .feed-detail-items {
+        padding: 20px 17px;
     }
 
     .subpage {
