@@ -1,5 +1,6 @@
 import { prisma } from "../../../lib/prisma";
 import { recordRequest } from "../../../lib/metrics";
+import { importFeedItems } from "../../../lib/rss";
 
 export async function GET(request: Request) {
   const startedAt = Date.now();
@@ -23,8 +24,17 @@ export async function POST(request: Request) {
       return Response.json({ error: "name, slug, and sourceUrl are required" }, { status: 400 });
     }
     const feed = await prisma.feed.create({ data: { name: body.name, slug: body.slug, sourceUrl: body.sourceUrl, description: body.description } });
-    await recordRequest({ clientId, method: "POST", path: "/api/feeds", status: 201, startedAt });
-    return Response.json(feed, { status: 201 });
+    try {
+      const items = await importFeedItems(feed.sourceUrl);
+      await prisma.feedItem.createMany({ data: items.map((item) => ({ ...item, feedId: feed.id })) });
+      await prisma.feed.update({ where: { id: feed.id }, data: { lastFetched: new Date(), status: "healthy" } });
+      await recordRequest({ clientId, feedId: feed.id, method: "POST", path: "/api/feeds", status: 201, startedAt });
+      return Response.json({ ...feed, itemsImported: items.length }, { status: 201 });
+    } catch (importError) {
+      await prisma.feed.update({ where: { id: feed.id }, data: { status: "warning" } });
+      await recordRequest({ clientId, feedId: feed.id, method: "POST", path: "/api/feeds", status: 201, startedAt });
+      return Response.json({ ...feed, status: "warning", itemsImported: 0, importError: importError instanceof Error ? importError.message : "Unable to import feed items" }, { status: 201 });
+    }
   } catch {
     await recordRequest({ clientId, method: "POST", path: "/api/feeds", status: 400, startedAt });
     return Response.json({ error: "Unable to create feed" }, { status: 400 });
