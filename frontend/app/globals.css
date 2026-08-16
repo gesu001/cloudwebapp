@@ -642,6 +642,53 @@ code {
     line-height: 1.45;
 }
 
+.home-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin: 30px 0 48px;
+}
+
+.home-actions a {
+    text-decoration: none;
+}
+
+.home-secondary {
+    color: var(--green);
+    font: 700 12px Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.home-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.home-card {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    padding: 27px;
+    text-decoration: none;
+}
+
+.home-card:hover {
+    background: var(--surface-hover);
+}
+
+.home-card h2 {
+    margin: 8px 0 12px;
+    font-size: 25px;
+    font-weight: 400;
+}
+
+.home-card p:not(.eyebrow) {
+    color: var(--muted);
+    line-height: 1.5;
+}
+
 .filter-panel {
     display: flex;
     align-items: end;
@@ -1077,8 +1124,15 @@ code {
     }
 
     .about-grid,
-    .posts-grid {
+    .posts-grid,
+    .home-grid {
         grid-template-columns: 1fr;
+    }
+
+    .home-actions {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-bottom: 34px;
     }
 
     .feed-detail-header {
