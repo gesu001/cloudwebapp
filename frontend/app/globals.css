@@ -252,6 +252,11 @@ button {
     font-family: Arial, sans-serif;
 }
 
+.health.offline {
+    border-color: color-mix(in srgb, var(--red) 60%, var(--line));
+    background: var(--danger-bg);
+}
+
 .health-icon {
     justify-content: center;
     width: 24px;
@@ -260,6 +265,10 @@ button {
     background: var(--green);
     color: white;
     font-weight: bold;
+}
+
+.health.offline .health-icon {
+    background: var(--red);
 }
 
 .health strong,
@@ -275,6 +284,10 @@ button {
     margin-top: 3px;
     color: var(--success-text);
     font-size: 11px;
+}
+
+.health.offline span {
+    color: color-mix(in srgb, var(--red) 70%, #5b2e24);
 }
 
 .alert {
