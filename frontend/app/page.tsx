@@ -19,14 +19,18 @@ export default function Home() {
   const [selectedFeed, setSelectedFeed] = useState<Feed | null>(null);
   const [error, setError] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [health, setHealth] = useState<"healthy" | "offline">("offline");
 
   async function refresh() {
     try {
+      const healthResponse = await fetch(`${API_URL}/health`, { cache: "no-store" });
       const response = await fetch(`${API_URL}/api/metrics`, { cache: "no-store" });
-      if (!response.ok) throw new Error("API unavailable");
+      if (!healthResponse.ok || !response.ok) throw new Error("API unavailable");
       setMetrics(await response.json());
+      setHealth("healthy");
       setError("");
     } catch {
+      setHealth("offline");
       setError("The API is offline. Start the API service to load live data.");
     }
   }
@@ -55,7 +59,7 @@ export default function Home() {
   const summary = metrics?.summary;
   return (
     <main className="shell">
-      <section className="intro"><div><p className="eyebrow">RSS SERVER / LMS NETWORK</p><h1>Signal, at a glance.</h1><p className="lede">A working view of feeds, clients, and the requests moving through Relay.</p></div><div className="health"><span className="health-icon">+</span><div><strong>System healthy</strong><span>API response nominal</span></div></div></section>
+      <section className="intro"><div><p className="eyebrow">RSS SERVER / LMS NETWORK</p><h1>RSS operations dashboard</h1><p className="lede">A working view of feeds, clients, and the requests moving through the RSS server.</p></div><div className={`health ${health}`}><span className="health-icon">{health === "healthy" ? "+" : "!"}</span><div><strong>{health === "healthy" ? "System healthy" : "System offline"}</strong><span>{health === "healthy" ? "API response nominal" : "API unavailable"}</span></div></div></section>
       {error && <div className="alert" role="alert">{error}</div>}
       <section className="metrics" aria-label="System summary"><Metric label="Total requests" value={summary?.totalRequests ?? "--"} detail="All recorded traffic" /><Metric label="Active feeds" value={summary?.totalFeeds ?? "--"} detail={`${summary?.healthyFeeds ?? "--"} healthy`} accent /><Metric label="Unique clients" value={summary?.uniqueClients ?? "--"} detail="Distinct identifiers" /><Metric label="Published items" value={summary?.totalItems ?? "--"} detail={`${summary?.warningFeeds ?? 0} feeds need review`} warning={Boolean(summary?.warningFeeds)} /></section>
       <section className="content-grid"><div className="panel feeds-panel"><div className="panel-heading"><div><p className="eyebrow">CONTENT SOURCES</p><h2>RSS feeds</h2></div><button className="primary" onClick={() => setShowForm(!showForm)}>+ Add feed</button></div>{showForm && <form className="feed-form" onSubmit={createFeed}><input name="name" placeholder="Feed name" required /><input name="slug" placeholder="feed-slug" required /><input name="sourceUrl" type="url" placeholder="https://example.com/feed.xml" required /><button className="primary" type="submit">Create feed</button></form>}<div className="feed-list">{metrics?.feeds.map((feed) => <button className="feed-row" key={feed.id} onClick={() => openFeed(feed)}><span className={`status ${feed.status}`} /><span className="feed-name"><strong>{feed.name}</strong><small>{feed.slug}</small></span><span className="item-count">{feed.itemCount ?? 0} items</span><span className="arrow">&#8599;</span></button>)}{!metrics?.feeds.length && !error && <p className="empty">No feeds found. Add one or run the seed script.</p>}</div></div><div className="panel traffic-panel"><div className="panel-heading"><div><p className="eyebrow">OBSERVABILITY</p><h2>Traffic by feed</h2></div><span className="time-range">Since launch</span></div><Bars rows={metrics?.requestsByFeed ?? []} /><div className="divider" /><div className="panel-heading compact"><h2>Top clients</h2><span className="time-range">Requests</span></div><Bars rows={(metrics?.requestsByClient ?? []).map((row) => ({ feed: row.client, requests: row.requests }))} /></div></section>
