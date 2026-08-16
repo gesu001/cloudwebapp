@@ -5,9 +5,9 @@ export default defineConfig({
   timeout: 30_000,
   expect: { timeout: 10_000 },
   fullyParallel: false,
-  reporter: [["list"], ["html", { open: "never" }]],
+  reporter: [["list"]],
   use: {
-    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:80",
+    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? "http://ec2-100-26-21-192.compute-1.amazonaws.com",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },
