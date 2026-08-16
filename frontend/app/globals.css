@@ -633,6 +633,57 @@ code {
     line-height: 1.45;
 }
 
+.filter-panel {
+    display: flex;
+    align-items: end;
+    gap: 16px;
+    flex-wrap: wrap;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    padding: 18px;
+    margin-bottom: 24px;
+}
+
+.filter-field {
+    display: grid;
+    gap: 7px;
+    min-width: 180px;
+}
+
+.filter-field label {
+    color: var(--muted);
+    font: 10px Arial, sans-serif;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.filter-field select,
+.filter-field input {
+    min-height: 38px;
+    border: 1px solid var(--line);
+    background: var(--input);
+    color: var(--ink);
+    padding: 8px 10px;
+}
+
+.filter-clear {
+    min-height: 38px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    padding: 8px 12px;
+    font: 700 11px Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.filter-count {
+    margin-left: auto;
+    color: var(--muted);
+    font: 11px Arial, sans-serif;
+    white-space: nowrap;
+}
+
 .about-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
