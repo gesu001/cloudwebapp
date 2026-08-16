@@ -134,6 +134,15 @@ body {
     text-transform: uppercase;
 }
 
+.site-footer a {
+    color: var(--green);
+    text-decoration: none;
+}
+
+.site-footer a:hover {
+    color: var(--ink);
+}
+
 button,
 input {
     font: inherit;
@@ -686,7 +695,7 @@ code {
 
 .about-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
 }
 
@@ -725,6 +734,27 @@ code {
 
 .story-block li span {
     color: var(--muted);
+}
+
+.student-information dl {
+    margin: 0;
+}
+
+.student-information dt,
+.student-information dd {
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+}
+
+.student-information dt {
+    color: var(--muted);
+    font: 10px Arial, sans-serif;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.student-information dd {
+    margin: -40px 0 0 130px;
 }
 
 .video-note {
