@@ -810,6 +810,26 @@ code {
     font: 700 12px Arial, sans-serif;
 }
 
+.post-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+.post-actions .feed-link {
+    color: var(--green);
+    font: 700 12px Arial, sans-serif;
+}
+
+.post-actions .post-source {
+    display: inline-block;
+    color: var(--paper);
+    font-size: 10px;
+    text-decoration: none;
+}
+
 .back-link,
 .feed-source {
     color: var(--muted);
