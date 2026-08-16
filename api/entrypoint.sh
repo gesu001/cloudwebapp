@@ -3,9 +3,10 @@
 # Wait for Postgres to be available
 ./wait-for-it.sh postgres:5432 --timeout=30 --strict -- echo "✅ Postgres is up"
 
-# Run Prisma commands
+# Prepare the database from the committed schema and demo records.
 npx prisma generate
-npx prisma migrate deploy
+npx prisma db push
+npm run db:seed
 
 # Start the app
 npm run dev

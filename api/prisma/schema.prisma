@@ -11,3 +11,45 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Feed {
+  id          Int         @id @default(autoincrement())
+  name        String
+  slug        String      @unique
+  sourceUrl   String
+  description String?
+  status      String      @default("healthy")
+  lastFetched DateTime    @default(now())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  items       FeedItem[]
+  requests    RequestLog[]
+}
+
+model FeedItem {
+  id          Int      @id @default(autoincrement())
+  feedId      Int
+  title       String
+  author      String
+  summary     String
+  link        String
+  publishedAt DateTime
+  imageUrl    String?
+  feed        Feed     @relation(fields: [feedId], references: [id], onDelete: Cascade)
+}
+
+model RequestLog {
+  id        Int      @id @default(autoincrement())
+  feedId    Int?
+  clientId  String
+  method    String
+  path      String
+  status    Int
+  duration  Int
+  createdAt DateTime @default(now())
+  feed      Feed?    @relation(fields: [feedId], references: [id], onDelete: SetNull)
+
+  @@index([clientId])
+  @@index([feedId])
+  @@index([createdAt])
+}
