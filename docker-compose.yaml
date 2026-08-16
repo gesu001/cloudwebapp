@@ -1,29 +1,27 @@
 services:
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: http://ec2-100-31-147-229.compute-1.amazonaws.com:4080
     ports:
       - "80:3000"
     depends_on:
       - api
     environment:
       - NODE_ENV=development
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules  # Optional: prevents overwriting node_modules in dev
-    command: npm run dev
+      - NEXT_PUBLIC_API_URL=http://ec2-100-31-147-229.compute-1.amazonaws.com:4080
 
   api:
     build: ./api
     ports:
       - "4080:3000"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       - NODE_ENV=development
       - DATABASE_URL=postgresql://user:password@postgres:5432/mydb
-    volumes:
-      - ./api:/app
-      - /app/node_modules  # Optional: same as frontend
 
   postgres:
     image: postgres:15
@@ -33,6 +31,11 @@ services:
       POSTGRES_DB: mydb
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d mydb"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
