@@ -45,6 +45,6 @@ export async function DELETE(request: Request, context: Context) {
   const feed = await prisma.feed.findUnique({ where: { slug }, select: { id: true } });
   if (!feed) return Response.json({ error: "Feed not found" }, { status: 404 });
   await prisma.feed.delete({ where: { slug } });
-  await recordRequest({ clientId, feedId: feed.id, method: "DELETE", path: `/api/feeds/${slug}`, status: 204, startedAt });
+  await recordRequest({ clientId, method: "DELETE", path: `/api/feeds/${slug}`, status: 204, startedAt });
   return new Response(null, { status: 204 });
 }
