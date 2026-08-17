@@ -8,17 +8,24 @@ Assessment 2 implementation: a Next.js RSS client, a Prisma/PostgreSQL RSS API, 
 docker-compose up --build
 ```
 
-For the EC2 host `ec2-54-84-138-176.compute-1.amazonaws.com`, the services are available at:
+For the EC2 host `ec2-13-220-177-185.compute-1.amazonaws.com`, the services are available at:
 
-- Frontend: http://ec2-54-84-138-176.compute-1.amazonaws.com
-- API: http://ec2-54-84-138-176.compute-1.amazonaws.com:4080
+- Frontend: http://ec2-13-220-177-185.compute-1.amazonaws.com
+- API: http://ec2-13-220-177-185.compute-1.amazonaws.com:4080
 - PostgreSQL: localhost:5432
 
-The API container waits for PostgreSQL, applies the Prisma schema with `prisma db push`, and loads demo records.
+The API container waits for PostgreSQL, applies committed Prisma migrations with `prisma migrate deploy`, and loads demo records.
+
+New databases are initialized from the committed migration files. If an existing database was previously created with `prisma db push`, baseline the initial migration once with `npx prisma migrate resolve --applied 20260817000000_init` before deploying.
+
+## Observability
+
+The API emits structured JSON logs with Pino, exports automatic HTTP and PostgreSQL traces through OpenTelemetry, and exposes request counters, error rates, latency histograms, and default process metrics at `/metrics`. Docker Compose starts Prometheus on `http://localhost:9090`, Grafana on `http://localhost:3000`, and Jaeger on `http://localhost:16686` with a provisioned RSS API dashboard. Grafana uses `admin` / `admin` for the local development login. Prometheus scrapes the API internally at `http://api:3000/metrics`, while the API exports OTLP traces to Jaeger at `http://jaeger:4318/v1/traces`.
 
 ## API endpoints
 
-- `GET /health` - service health response
+- `GET /health` - service and PostgreSQL connectivity health response (`503` when the database is unavailable)
+- `GET /metrics` - Prometheus metrics endpoint
 - `GET /count` - request, feed, and item totals
 - `GET /api/feeds` - list feeds with RSS items
 - `POST /api/feeds` - create a feed
@@ -32,7 +39,7 @@ The API container waits for PostgreSQL, applies the Prisma schema with `prisma d
 ```bash
 cd api
 npm install
-npm run db:push
+npm run db:migrate
 npm run db:seed
 npm run dev
 ```

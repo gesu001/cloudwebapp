@@ -1,0 +1,29 @@
+node_modules/
+.next/
+out/
+playwright-report/
+test-results/
+coverage/
+.nyc_output/
+.cache/
+.turbo/
+.vercel/
+*.tsbuildinfo
+.eslintcache
+
+# Local environment and secret files
+.env
+.env.*
+!.env.example
+
+# Test and load-test output
+results/
+*.jtl
+*.har
+
+# Local runtime files
+*.pid
+*.seed
+*.tgz
+*.log
+.DS_Store

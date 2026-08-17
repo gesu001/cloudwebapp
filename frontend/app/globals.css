@@ -252,6 +252,11 @@ button {
     font-family: Arial, sans-serif;
 }
 
+.health.offline {
+    border-color: color-mix(in srgb, var(--red) 60%, var(--line));
+    background: var(--danger-bg);
+}
+
 .health-icon {
     justify-content: center;
     width: 24px;
@@ -260,6 +265,10 @@ button {
     background: var(--green);
     color: white;
     font-weight: bold;
+}
+
+.health.offline .health-icon {
+    background: var(--red);
 }
 
 .health strong,
@@ -277,12 +286,21 @@ button {
     font-size: 11px;
 }
 
+.health.offline span {
+    color: color-mix(in srgb, var(--red) 70%, #5b2e24);
+}
+
 .alert {
     border-left: 3px solid var(--red);
     background: var(--danger-bg);
     padding: 13px 16px;
     margin-bottom: 24px;
     font: 13px Arial, sans-serif;
+}
+
+.warning-alert {
+    border-left-color: var(--yellow);
+    background: color-mix(in srgb, var(--yellow) 18%, var(--surface));
 }
 
 .metrics {
@@ -640,6 +658,53 @@ code {
     color: var(--muted);
     font-size: 19px;
     line-height: 1.45;
+}
+
+.home-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin: 30px 0 48px;
+}
+
+.home-actions a {
+    text-decoration: none;
+}
+
+.home-secondary {
+    color: var(--green);
+    font: 700 12px Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.home-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.home-card {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    padding: 27px;
+    text-decoration: none;
+}
+
+.home-card:hover {
+    background: var(--surface-hover);
+}
+
+.home-card h2 {
+    margin: 8px 0 12px;
+    font-size: 25px;
+    font-weight: 400;
+}
+
+.home-card p:not(.eyebrow) {
+    color: var(--muted);
+    line-height: 1.5;
 }
 
 .filter-panel {
@@ -1077,8 +1142,15 @@ code {
     }
 
     .about-grid,
-    .posts-grid {
+    .posts-grid,
+    .home-grid {
         grid-template-columns: 1fr;
+    }
+
+    .home-actions {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-bottom: 34px;
     }
 
     .feed-detail-header {

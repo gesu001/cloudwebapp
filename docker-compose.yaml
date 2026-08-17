@@ -3,25 +3,61 @@ services:
     build:
       context: ./frontend
       args:
-        NEXT_PUBLIC_API_URL: http://ec2-54-84-138-176.compute-1.amazonaws.com:4080
+        NEXT_PUBLIC_API_URL: http://ec2-13-220-177-185.compute-1.amazonaws.com:4080
     ports:
       - "80:3000"
     depends_on:
       - api
     environment:
       - NODE_ENV=development
-      - NEXT_PUBLIC_API_URL=http://ec2-54-84-138-176.compute-1.amazonaws.com:4080
+      - NEXT_PUBLIC_API_URL=http://ec2-13-220-177-185.compute-1.amazonaws.com:4080
 
   api:
     build: ./api
     ports:
       - "4080:3000"
-    depends_on:
-      postgres:
-        condition: service_healthy
     environment:
       - NODE_ENV=development
       - DATABASE_URL=postgresql://user:password@postgres:5432/mydb
+      - OTEL_SERVICE_NAME=rss-api
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318/v1/traces
+    depends_on:
+      postgres:
+        condition: service_healthy
+      jaeger:
+        condition: service_started
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.76.0
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+      - "4318:4318"
+
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+      - api
+
+  grafana:
+    image: grafana/grafana:12.1.1
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - prometheus
 
   postgres:
     image: postgres:15
@@ -41,3 +77,4 @@ services:
 
 volumes:
   postgres_data:
+  grafana_data:

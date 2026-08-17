@@ -24,6 +24,5 @@ for (const feed of feeds) {
 
 await query(`INSERT INTO "RequestLog" ("clientId", method, path, status, duration, "createdAt") VALUES
   ('rss-dashboard', 'GET', '/api/metrics', 200, 42, NOW()),
-  ('jmeter-client-01', 'GET', '/api/feeds/campus-brief', 200, 28, NOW()),
   ('rss-reader', 'GET', '/api/feeds/engineering-desk', 200, 35, NOW())`);
 await pool.end();
