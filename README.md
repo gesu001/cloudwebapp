@@ -20,7 +20,7 @@ New databases are initialized from the committed migration files. If an existing
 
 ## Observability
 
-The API emits structured JSON logs with Pino and exposes request counters, error rates, latency histograms, and default process metrics at `/metrics`. Docker Compose starts Prometheus on `http://localhost:9090` and Grafana on `http://localhost:3000` with a provisioned RSS API dashboard. Grafana uses `admin` / `admin` for the local development login. Prometheus scrapes the API internally at `http://api:3000/metrics`.
+The API emits structured JSON logs with Pino, exports automatic HTTP and PostgreSQL traces through OpenTelemetry, and exposes request counters, error rates, latency histograms, and default process metrics at `/metrics`. Docker Compose starts Prometheus on `http://localhost:9090`, Grafana on `http://localhost:3000`, and Jaeger on `http://localhost:16686` with a provisioned RSS API dashboard. Grafana uses `admin` / `admin` for the local development login. Prometheus scrapes the API internally at `http://api:3000/metrics`, while the API exports OTLP traces to Jaeger at `http://jaeger:4318/v1/traces`.
 
 ## API endpoints
 
