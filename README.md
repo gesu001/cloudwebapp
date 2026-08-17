@@ -8,10 +8,10 @@ Assessment 2 implementation: a Next.js RSS client, a Prisma/PostgreSQL RSS API, 
 docker-compose up --build
 ```
 
-For the EC2 host `ec2-13-220-177-185.compute-1.amazonaws.com`, the services are available at:
+For the EC2 host `ec2-3-84-118-196.compute-1.amazonaws.com`, the services are available at:
 
-- Frontend: http://ec2-13-220-177-185.compute-1.amazonaws.com
-- API: http://ec2-13-220-177-185.compute-1.amazonaws.com:4080
+- Frontend: http://ec2-3-84-118-196.compute-1.amazonaws.com
+- API: http://ec2-3-84-118-196.compute-1.amazonaws.com:4080
 - PostgreSQL: localhost:5432
 
 The API container waits for PostgreSQL, applies committed Prisma migrations with `prisma migrate deploy`, and loads demo records.
