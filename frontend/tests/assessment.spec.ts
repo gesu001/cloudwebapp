@@ -3,6 +3,10 @@ import { expect, test } from "@playwright/test";
 const apiURL = process.env.PLAYWRIGHT_API_URL ?? "http://127.0.0.1:4080";
 
 test("server use case: create, read, update, and delete an RSS feed", async ({ request }) => {
+  const healthResponse = await request.get(`${apiURL}/health`);
+  expect(healthResponse.status()).toBe(200);
+  expect((await healthResponse.json()).database).toBe("ok");
+
   const slug = `playwright-${Date.now()}`;
   const createResponse = await request.post(`${apiURL}/api/feeds`, {
     headers: { "x-client-id": "playwright-server" },

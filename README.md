@@ -20,7 +20,7 @@ New databases are initialized from the committed migration files. If an existing
 
 ## API endpoints
 
-- `GET /health` - service health response
+- `GET /health` - service and PostgreSQL connectivity health response (`503` when the database is unavailable)
 - `GET /count` - request, feed, and item totals
 - `GET /api/feeds` - list feeds with RSS items
 - `POST /api/feeds` - create a feed
