@@ -8,7 +8,7 @@ export default defineConfig({
   reporter: [["list"]],
   use: {
     baseURL: process.env.PLAYWRIGHT_BASE_URL ?? "http://ec2-34-235-125-35.compute-1.amazonaws.com",
-    trace: "retain-on-failure",
+    trace: "off",
     screenshot: "only-on-failure",
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
