@@ -18,9 +18,14 @@ The API container waits for PostgreSQL, applies committed Prisma migrations with
 
 New databases are initialized from the committed migration files. If an existing database was previously created with `prisma db push`, baseline the initial migration once with `npx prisma migrate resolve --applied 20260817000000_init` before deploying.
 
+## Observability
+
+The API emits structured JSON logs with Pino and exposes request counters, error rates, latency histograms, and default process metrics at `/metrics`. Docker Compose starts Prometheus on `http://localhost:9090` and Grafana on `http://localhost:3000` with a provisioned RSS API dashboard. Grafana uses `admin` / `admin` for the local development login. Prometheus scrapes the API internally at `http://api:3000/metrics`.
+
 ## API endpoints
 
 - `GET /health` - service and PostgreSQL connectivity health response (`503` when the database is unavailable)
+- `GET /metrics` - Prometheus metrics endpoint
 - `GET /count` - request, feed, and item totals
 - `GET /api/feeds` - list feeds with RSS items
 - `POST /api/feeds` - create a feed

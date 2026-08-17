@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: RSS API
+    orgId: 1
+    folder: RSS API
+    type: file
+    disableDeletion: true
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards
