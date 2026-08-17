@@ -1,8 +1,8 @@
 #!/bin/sh
 
-# Prepare the database from the committed schema and demo records.
+# Apply committed migrations and load demo records.
 npx prisma generate
-npx prisma db push
+npx prisma migrate deploy
 npm run db:seed
 
 # Start the app

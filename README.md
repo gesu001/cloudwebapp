@@ -14,7 +14,9 @@ For the EC2 host `ec2-13-220-177-185.compute-1.amazonaws.com`, the services are 
 - API: http://ec2-13-220-177-185.compute-1.amazonaws.com:4080
 - PostgreSQL: localhost:5432
 
-The API container waits for PostgreSQL, applies the Prisma schema with `prisma db push`, and loads demo records.
+The API container waits for PostgreSQL, applies committed Prisma migrations with `prisma migrate deploy`, and loads demo records.
+
+New databases are initialized from the committed migration files. If an existing database was previously created with `prisma db push`, baseline the initial migration once with `npx prisma migrate resolve --applied 20260817000000_init` before deploying.
 
 ## API endpoints
 
@@ -32,7 +34,7 @@ The API container waits for PostgreSQL, applies the Prisma schema with `prisma d
 ```bash
 cd api
 npm install
-npm run db:push
+npm run db:migrate
 npm run db:seed
 npm run dev
 ```

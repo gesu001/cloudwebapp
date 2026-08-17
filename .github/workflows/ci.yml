@@ -31,6 +31,10 @@ jobs:
         working-directory: api
         run: npx tsc --noEmit
 
+      - name: Validate Prisma schema
+        working-directory: api
+        run: npx prisma validate
+
       - name: Lint API
         working-directory: api
         run: npm run lint
