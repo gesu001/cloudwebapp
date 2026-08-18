@@ -4,14 +4,19 @@ Assessment 2 implementation: a Next.js RSS client, a Prisma/PostgreSQL RSS API, 
 
 ## Run with Docker
 
+The EC2 instance's public hostname changes whenever it is stopped and started, so it is
+configured through an `EC2_HOST` environment variable instead of being hardcoded.
+
 ```bash
+cp .env.example .env   # then edit .env and set EC2_HOST to the current instance address
 docker-compose up --build
 ```
 
-For the EC2 host `ec2-34-235-125-35.compute-1.amazonaws.com`, the services are available at:
+`docker-compose.yaml` reads `EC2_HOST` from `.env` automatically. With `EC2_HOST` set, the
+services are available at:
 
-- Frontend: http://ec2-34-235-125-35.compute-1.amazonaws.com
-- API: http://ec2-34-235-125-35.compute-1.amazonaws.com:4080
+- Frontend: http://$EC2_HOST
+- API: http://$EC2_HOST:4080
 - PostgreSQL: localhost:5432
 
 The API container waits for PostgreSQL, applies committed Prisma migrations with `prisma migrate deploy`, and loads demo records.

@@ -7,7 +7,7 @@ export default defineConfig({
   fullyParallel: false,
   reporter: [["list"]],
   use: {
-    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? "http://ec2-34-235-125-35.compute-1.amazonaws.com",
+    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? `http://${process.env.EC2_HOST ?? "localhost"}`,
     trace: "off",
     screenshot: "only-on-failure",
   },
