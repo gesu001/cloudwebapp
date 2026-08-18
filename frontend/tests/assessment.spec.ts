@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-const apiURL = process.env.PLAYWRIGHT_API_URL ?? "http://127.0.0.1:4080";
+const apiURL = process.env.PLAYWRIGHT_API_URL ?? `http://${process.env.EC2_HOST ?? "127.0.0.1"}:4080`;
 
 test("server use case: create, read, update, and delete an RSS feed", async ({ request }) => {
   const healthResponse = await request.get(`${apiURL}/health`);

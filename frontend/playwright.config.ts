@@ -1,4 +1,9 @@
 import { defineConfig, devices } from "@playwright/test";
+import { config as loadEnv } from "dotenv";
+import path from "path";
+
+// Shared EC2_HOST lives in the repo-root .env so it only needs updating in one place
+loadEnv({ path: path.resolve(__dirname, "../.env") });
 
 export default defineConfig({
   testDir: "./tests",
