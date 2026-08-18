@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
+// Set EC2_HOST in .env so this doesn't need updating when the instance address changes
+const allowedDevOrigins = process.env.EC2_HOST ? [process.env.EC2_HOST, 'localhost'] : ['localhost'];
+
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ['ec2-13-220-177-185.compute-1.amazonaws.com', 'localhost'],
+  allowedDevOrigins,
 };
 
 export default nextConfig;
